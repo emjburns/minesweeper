@@ -99,8 +99,6 @@ public class Main {
               continue;
           }
 
-          System.out.println(coord);
-
           Result guessResult = minesweeper.guess(coord, action);
 
           if (guessResult == Result.LOSE){
