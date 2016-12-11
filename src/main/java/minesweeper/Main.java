@@ -1,6 +1,9 @@
 package minesweeper;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -18,11 +21,34 @@ public class Main {
 
       Scanner sc = new Scanner(System.in);
 
-      //Beginner (8x8, 10 mines), Intermediate (16x16, 40 mines) and Expert (24x24, 99 mines)
-
-      Minesweeper minesweeper = new Minesweeper(8,10);
-
+      //
       System.out.println("Let's get started!");
+      System.out.println("What level would you like to play?");
+      System.out.println("Easy (8x8, 10 mines), Medium (16x16, 40 mines) or Hard (24x24, 99 mines)?");
+      System.out.println("Type 'E' for easy, 'M' for medium, and 'H' for hard");
+      String in = sc.next();
+      List<String> validInput = new ArrayList<String >(Arrays.asList("E", "e", "M", "m", "H", "h"));
+      while (!validInput.contains(in)){
+          System.out.println("Invalid level selection. Please choose 'E', 'M', or 'H'.");
+          in = sc.next();
+      }
+
+      int size = 1;
+      int numBombs = 1;
+
+      if (in.equals("E") || in.equals("e")){
+          size = 8;
+          numBombs = 10;
+      }else if (in.equals("M") || in.equals("m")){
+          size = 16;
+          numBombs = 40;
+      }else if (in.equals("H") || in.equals("h")){
+          size = 24;
+          numBombs = 99;
+      }
+
+      Minesweeper minesweeper = new Minesweeper(size, numBombs);
+
       System.out.println("Instructions: ");
       System.out.println("To guess a coordinate, type the row, then the column:");
       System.out.println("0 3");
@@ -37,18 +63,19 @@ public class Main {
       boolean playing = true;
       while (playing){
 //          System.out.println("Guess: ");
-          String input = sc.next();
+          String input = sc.nextLine();
+          String splitinput[] = input.split(" ");
 
-          if (input.equals("Q") || input.equals("q")){
+          if (splitinput.length == 1 && (splitinput[0].equals("Q") || splitinput[0].equals("q"))){
               playing = false;
               break;
           }
-          if (input.equals("p")){
+          if (splitinput.length == 1 &&  splitinput[0].equals("p")){
               //print debug board
               minesweeper.printBoardDebug();
               continue;
           }
-          if (input.equals("P")){
+          if (splitinput.length == 1 && splitinput[0].equals("P")){
               //print board
               minesweeper.printBoard();
               continue;
@@ -59,18 +86,20 @@ public class Main {
 
 
           try {
-              if (input.equals("F") || input.equals("f")){
+              if (splitinput[0].equals("F") || splitinput[0].equals("f")){
                 action = Action.FLAG;
-                coord.row = sc.nextInt();
-                coord.col = sc.nextInt();
+                coord.row = Integer.parseInt(splitinput[1]);
+                coord.col = Integer.parseInt(splitinput[2]);
               }else {
-                  coord.row = Integer.parseInt(input);
-                  coord.col = sc.nextInt();
+                  coord.row = Integer.parseInt(splitinput[0]);
+                  coord.col = Integer.parseInt(splitinput[1]);
               }
           }catch (Exception e) {
               System.out.println("Invalid input received. Try again.");
               continue;
           }
+
+          System.out.println(coord);
 
           Result guessResult = minesweeper.guess(coord, action);
 

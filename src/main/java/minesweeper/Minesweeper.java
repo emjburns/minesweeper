@@ -71,8 +71,6 @@ public class Minesweeper {
 
         while(!process.empty()) {
             c = process.pop();
-            System.out.println(c);
-            System.out.println("(" + numCellsUnseen + ")");
             Cell cur = getCell(c);
 
             if (cur.numBombs == 0) {//if valid one to expand
