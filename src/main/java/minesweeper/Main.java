@@ -26,11 +26,11 @@ public class Main {
       System.out.println("What level would you like to play?");
       System.out.println("Easy (8x8, 10 mines), Medium (16x16, 40 mines) or Hard (24x24, 99 mines)?");
       System.out.println("Type 'E' for easy, 'M' for medium, and 'H' for hard");
-      String in = sc.next();
+      String in = sc.nextLine();
       List<String> validInput = new ArrayList<String >(Arrays.asList("E", "e", "M", "m", "H", "h"));
       while (!validInput.contains(in)){
           System.out.println("Invalid level selection. Please choose 'E', 'M', or 'H'.");
-          in = sc.next();
+          in = sc.nextLine();
       }
 
       int size = 1;
@@ -64,6 +64,7 @@ public class Main {
       while (playing){
 //          System.out.println("Guess: ");
           String input = sc.nextLine();
+//          System.out.println("input: " + input);
           String splitinput[] = input.split(" ");
 
           if (splitinput.length == 1 && (splitinput[0].equals("Q") || splitinput[0].equals("q"))){
